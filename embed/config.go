@@ -365,6 +365,9 @@ type Config struct {
 	UnsafeNoFsync bool `json:"unsafe-no-fsync"`
 	// NextClusterVersionCompatible enables 3.4 to be compatible with next version 3.5, to allow 3.4 server to join 3.5 cluster and start on 3.5 schema.
 	NextClusterVersionCompatible bool `json:"next-cluster-version-compatible"`
+
+	// ExperimentalTxnModeWriteWithSharedBuffer enables write transaction to use a shared buffer in its readonly check operations.
+	ExperimentalTxnModeWriteWithSharedBuffer bool `json:"experimental-txn-mode-write-with-shared-buffer"`
 }
 
 // configYAML holds the config suitable for yaml parsing
@@ -445,14 +448,15 @@ func NewConfig() *Config {
 
 		PreVote: false, // TODO: enable by default in v3.5
 
-		loggerMu:            new(sync.RWMutex),
-		logger:              nil,
-		Logger:              "capnslog",
-		DeprecatedLogOutput: []string{DefaultLogOutput},
-		LogOutputs:          []string{DefaultLogOutput},
-		Debug:               false,
-		LogLevel:            logutil.DefaultLogLevel,
-		LogPkgLevels:        "",
+		loggerMu:                                 new(sync.RWMutex),
+		logger:                                   nil,
+		Logger:                                   "capnslog",
+		DeprecatedLogOutput:                      []string{DefaultLogOutput},
+		LogOutputs:                               []string{DefaultLogOutput},
+		Debug:                                    false,
+		LogLevel:                                 logutil.DefaultLogLevel,
+		LogPkgLevels:                             "",
+		ExperimentalTxnModeWriteWithSharedBuffer: true,
 	}
 	cfg.InitialCluster = cfg.InitialClusterFromName(cfg.Name)
 	return cfg

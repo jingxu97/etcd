@@ -174,6 +174,10 @@ type ServerConfig struct {
 	UnsafeNoFsync bool `json:"unsafe-no-fsync"`
 	// NextClusterVersionCompatible enables 3.4 to be compatible with next version 3.5, to allow 3.4 server to join 3.5 cluster and start on 3.5 schema.
 	NextClusterVersionCompatible bool `json:"next-cluster-version-compatible"`
+
+	// ExperimentalTxnModeWriteWithSharedBuffer enable write transaction to use
+	// a shared buffer in its readonly check operations.
+	ExperimentalTxnModeWriteWithSharedBuffer bool `json:"experimental-txn-mode-write-with-shared-buffer"`
 }
 
 // VerifyBootstrap sanity-checks the initial config for bootstrap case
